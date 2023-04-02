@@ -1,3 +1,5 @@
+const ToDo = require('../modules/ToDo');
+
 const getAllToDos = (req, res) => {
     res.send('All ToDos retrieved!')
 }
