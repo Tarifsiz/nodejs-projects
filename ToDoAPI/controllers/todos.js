@@ -1,7 +1,12 @@
 const ToDo = require('../modules/ToDo');
 
-const getAllToDos = (req, res) => {
-    res.send('All ToDos retrieved!')
+const getAllToDos = async (req, res) => {
+    try {
+        const todos = await ToDo.find({})
+        res.status(200).json({ todos })
+    } catch (error) {
+        res.status(500).json({ msg: error })
+    }
 }
 
 const createToDo = async (req, res) => {
@@ -13,8 +18,17 @@ const createToDo = async (req, res) => {
     }
 }
 
-const getToDo = (req, res) => {
-    res.json({ id: req.params.id })
+const getToDo = async (req, res) => {
+    try {
+        const {id: taskID } = req.params
+        const todo = await ToDo.findOne({ _id:taskID })
+        if (!todo){
+            return res.status(404).json({ msg: `No task found with id:${taskID}` })
+        }
+        res.status(200).json({ todo })
+    } catch (error) {
+        res.status(500).json({ msg: error })
+    }
 }
 
 const updateToDo = (req, res) => {
