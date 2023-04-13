@@ -31,12 +31,33 @@ const getToDo = async (req, res) => {
     }
 }
 
-const updateToDo = (req, res) => {
-    res.send('ToDo updated!')
+const updateToDo = async (req, res) => {
+    try {
+        const { id: taskID } = req.params;
+        const todo = await ToDo.findOneAndUpdate({ _id:taskID }, req.body, {
+            new: true,
+            runValidators: true
+        } );
+        if (!todo){
+            return res.status(404).json({ msg: `No task found with id:${taskID}` })
+        }
+        res.status(200).json({ id: taskID, data: req.data })
+    } catch (error) {
+        res.status(500).json({ msg: error })
+    }
 }
 
-const deleteToDo = (req, res) => {
-    res.send('ToDo deleted!')
+const deleteToDo = async (req, res) => {
+    try {
+        const {id: taskID } = req.params;
+        const todo = await ToDo.findOneAndDelete({ _id:taskID });
+        if (!todo){
+            return res.status(404).json({ msg: `No task found with id:${taskID}` })
+        }
+        res.status(200).json({ todo })
+    } catch (error) {
+        res.status(500).json({ msg: error })
+    }
 }
 
 module.exports = {
