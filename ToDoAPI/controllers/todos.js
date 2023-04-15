@@ -20,10 +20,10 @@ const createToDo = async (req, res) => {
 
 const getToDo = async (req, res) => {
     try {
-        const {id: taskID } = req.params
-        const todo = await ToDo.findOne({ _id:taskID })
+        const {id: todoID } = req.params
+        const todo = await ToDo.findOne({ _id:todoID })
         if (!todo){
-            return res.status(404).json({ msg: `No task found with id:${taskID}` })
+            return res.status(404).json({ msg: `No task found with id:${todoID}` })
         }
         res.status(200).json({ todo })
     } catch (error) {
@@ -33,15 +33,15 @@ const getToDo = async (req, res) => {
 
 const updateToDo = async (req, res) => {
     try {
-        const { id: taskID } = req.params;
-        const todo = await ToDo.findOneAndUpdate({ _id:taskID }, req.body, {
+        const { id: todoID } = req.params;
+        const todo = await ToDo.findOneAndUpdate({ _id:todoID }, req.body, {
             new: true,
             runValidators: true
         } );
         if (!todo){
-            return res.status(404).json({ msg: `No task found with id:${taskID}` })
+            return res.status(404).json({ msg: `No task found with id:${todoID}` })
         }
-        res.status(200).json({ id: taskID, data: req.data })
+        res.status(200).json({ id: todoID, data: req.data })
     } catch (error) {
         res.status(500).json({ msg: error })
     }
@@ -49,10 +49,10 @@ const updateToDo = async (req, res) => {
 
 const deleteToDo = async (req, res) => {
     try {
-        const {id: taskID } = req.params;
-        const todo = await ToDo.findOneAndDelete({ _id:taskID });
+        const {id: todoID } = req.params;
+        const todo = await ToDo.findOneAndDelete({ _id:todoID });
         if (!todo){
-            return res.status(404).json({ msg: `No task found with id:${taskID}` })
+            return res.status(404).json({ msg: `No task found with id:${todoID}` })
         }
         res.status(200).json({ todo })
     } catch (error) {
