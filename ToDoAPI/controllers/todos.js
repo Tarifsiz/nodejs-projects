@@ -41,7 +41,7 @@ const updateToDo = async (req, res) => {
         if (!todo){
             return res.status(404).json({ msg: `No task found with id:${todoID}` })
         }
-        res.status(200).json({ id: todoID, data: req.data })
+        res.status(200).json({ todo })
     } catch (error) {
         res.status(500).json({ msg: error })
     }
