@@ -3,7 +3,7 @@ const app = express();
 const todos = require('./routes/todos');
 const connectDB = require('./db/connect');
 require('dotenv').config();
-
+const notFound = require('./middleware/not-found');
 // middleware
 app.use(express.static('./public'));
 app.use(express.json());
@@ -16,28 +16,7 @@ app.get('/api/v1/whoami', (req, res) => {
 // Get all the to-dos
 app.use('/api/v1/todos', todos);
 
-
-
-
-// Create a new to-do
-// app.post('api/v1/todos', (req, res) => {
-    
-// });
-
-// // Get a single to-do
-// app.get('api/v1/todos/:id', (req, res) => {
-    
-// });
-
-// // Update a to-do
-// app.patch('api/v1/todos/:id', (req, res) => {
-    
-// });
-
-// // Delete a to-do
-// app.delete('api/v1/todos/:id', (req, res) => {
-    
-// });
+app.use(notFound);
 
 const port = 3000;
 
