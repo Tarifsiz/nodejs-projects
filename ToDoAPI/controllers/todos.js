@@ -1,64 +1,50 @@
 const ToDo = require('../modules/ToDo');
+const asyncWrapper = require('../middleware/async');
 
-const getAllToDos = async (req, res) => {
-    try {
-        const todos = await ToDo.find({})
-        res.status(200).json({ todos })
-    } catch (error) {
-        res.status(500).json({ msg: error })
-    }
-}
+const getAllToDos = asyncWrapper(async (req, res) => {
 
-const createToDo = async (req, res) => {
-    try {
-        const todo = await ToDo.create(req.body)
-        res.status(201).json({ todo })
-    } catch (error) {
-        res.status(500).json({ msg: error })
-    }
-}
+    const todos = await ToDo.find({})
+    res.status(200).json({ todos })
+})
 
-const getToDo = async (req, res) => {
-    try {
-        const {id: todoID } = req.params
-        const todo = await ToDo.findOne({ _id:todoID })
-        if (!todo){
-            return res.status(404).json({ msg: `No task found with id:${todoID}` })
-        }
-        res.status(200).json({ todo })
-    } catch (error) {
-        res.status(500).json({ msg: error })
-    }
-}
+const createToDo = asyncWrapper(async (req, res) => {
 
-const updateToDo = async (req, res) => {
-    try {
-        const { id: todoID } = req.params;
-        const todo = await ToDo.findOneAndUpdate({ _id:todoID }, req.body, {
-            new: true,
-            runValidators: true
-        } );
-        if (!todo){
-            return res.status(404).json({ msg: `No task found with id:${todoID}` })
-        }
-        res.status(200).json({ todo })
-    } catch (error) {
-        res.status(500).json({ msg: error })
-    }
-}
+    const todo = await ToDo.create(req.body)
+    res.status(201).json({ todo })
+})
 
-const deleteToDo = async (req, res) => {
-    try {
-        const {id: todoID } = req.params;
-        const todo = await ToDo.findOneAndDelete({ _id:todoID });
-        if (!todo){
-            return res.status(404).json({ msg: `No task found with id:${todoID}` })
-        }
-        res.status(200).json({ todo })
-    } catch (error) {
-        res.status(500).json({ msg: error })
+const getToDo = asyncWrapper(async (req, res) => {
+    
+    const {id: todoID } = req.params
+    const todo = await ToDo.findOne({ _id:todoID })
+    if (!todo){
+        return res.status(404).json({ msg: `No task found with id:${todoID}` })
     }
-}
+    res.status(200).json({ todo })
+})
+
+const updateToDo = asyncWrapper(async (req, res) => {
+    
+    const { id: todoID } = req.params;
+    const todo = await ToDo.findOneAndUpdate({ _id:todoID }, req.body, {
+        new: true,
+        runValidators: true
+    } );
+    if (!todo){
+        return res.status(404).json({ msg: `No task found with id:${todoID}` })
+    }
+    res.status(200).json({ todo })
+})
+
+const deleteToDo = asyncWrapper(async (req, res) => {
+    
+    const {id: todoID } = req.params;
+    const todo = await ToDo.findOneAndDelete({ _id:todoID });
+    if (!todo){
+        return res.status(404).json({ msg: `No task found with id:${todoID}` })
+    }
+    res.status(200).json({ todo })
+})
 
 module.exports = {
     getAllToDos,
