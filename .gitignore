@@ -1,3 +1,4 @@
+StoreAPI/.env
 StoreAPI/node_modules/.package-lock.json
 StoreAPI/node_modules/.bin/mime
 StoreAPI/node_modules/.bin/nodemon
